@@ -133,7 +133,7 @@ class Materia{
 	
 	method claseFinalizada() {
 		estudiantesPresentes.clear()
-	}
+	} 
 }
 
 class HechisoComun{
@@ -141,8 +141,7 @@ class HechisoComun{
 	
 	method puedeSerLanzadoPor(estudiante) = estudiante.habilidad() > nivelDificultad
 	
-	method consecuencia(estudiante){	
-	}
+	method consecuencia(estudiante){}
 	
 	method potenciaAtaque() = nivelDificultad + 10
 }
