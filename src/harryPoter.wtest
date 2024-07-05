@@ -1,0 +1,114 @@
+import harryPoter.*
+
+describe "test del parcial" {
+
+	const harry = new Estudiante(salud = 14, habilidad = 8, casa = hogwart, sangrePura = true)
+	
+	const draco = new Estudiante(salud = 12, habilidad = 11, casa = gryffindor, sangrePura = true)
+	
+	const hermione = new Estudiante(salud = 10, habilidad = 7, casa = ravenclaw, sangrePura = false)
+	
+	const fernando = new Estudiante(salud = 16, habilidad = 16, casa = hufflepuff, sangrePura = false)
+	
+	const orco = new Individuo(salud = 65)
+	
+	const goblin = new CriaturaInmune(salud = 50)
+	
+	const inmobilus = new HechisoComun(nivelDificultad = 5)
+	
+	const cruciatus = new HechisoImperdonable(nivelDificultad = 8, danoColateral = 3)
+	
+	const sectum = new HechisosDeBuenos(nivelDificultad = 7)
+	
+	const matanga = new HechisosPuros(nivelDificultad = 9)
+	
+	const cadabrus = new HechisosImpuros(nivelDificultad = 4)
+	
+	const organizacionDeLaMagia1 = new Materia(profesor = "Scaloni", hechiso = inmobilus, criatura = orco)
+	
+	const logicaDeLaMagia = new Materia(profesor = "Gandalf", hechiso = matanga, criatura = goblin)
+	
+	test "se le pregunata a harry su salud y responde 14"{
+		assert.equals(14, harry.salud())
+	}
+	
+	test "se le aumenta 2 de salud a harry y su salud pasa a ser 16" {
+		harry.aumentarSalud(2)
+		assert.equals(16, harry.salud())
+	}
+	
+	test "se le disminuye 2 de salud a fernando y su salud ahora es 14"{
+		fernando.perderSalud(2)
+		assert.equals(14, fernando.salud())
+	}
+	
+	test "draco se inscribe a la materia de organizacionDeLaMagia1 y esta inscripto a esa materia"{
+		draco.inscribirseAMateria(organizacionDeLaMagia1)
+		assert.that(draco.estaInscripto(organizacionDeLaMagia1))
+	}
+	
+	test "draco se inscribe a la materia de organizacionDeLaMagia1 y luego se da de baja por lo que no esta inscripto a esa materia"{
+		draco.inscribirseAMateria(organizacionDeLaMagia1)
+		draco.darDeBaja(organizacionDeLaMagia1)
+		assert.notThat(draco.estaInscripto(organizacionDeLaMagia1))
+	}
+	
+	test "se dicta la materia de organizacionDeLaMagia1 con draco y hermione y ambos aprenden el hechiso"{
+		draco.inscribirseAMateria(organizacionDeLaMagia1)
+		hermione.inscribirseAMateria(organizacionDeLaMagia1)
+		draco.asistirAMateria(organizacionDeLaMagia1)
+		hermione.asistirAMateria(organizacionDeLaMagia1)
+		organizacionDeLaMagia1.dictarMateria()
+		assert.equals(draco.tiene(inmobilus), hermione.tiene(inmobilus) )
+	}
+	
+	test "se cambia el hechiso de organizacionDeLaMagia1 por cadabrus"{
+		organizacionDeLaMagia1.cambiarEchiso(cadabrus)
+		assert.equals(organizacionDeLaMagia1.hechiso(), cadabrus)
+	}
+	
+	test "fernando aprende inmobilus y se lo lanza a orco por lo que la vida del orco ahora es de 50"{
+		fernando.inscribirseAMateria(organizacionDeLaMagia1)
+		fernando.asistirAMateria(organizacionDeLaMagia1)
+		organizacionDeLaMagia1.dictarMateria()
+		fernando.lanzarHecisoA(orco, inmobilus)
+		assert.equals(50, orco.salud())
+	}
+	
+	test "Se realiza una prectica de logicaDeLaMagia con fernando, harry, hermione y draco y la vida del goblin permanece en 50"{
+		draco.inscribirseAMateria(logicaDeLaMagia)
+		hermione.inscribirseAMateria(logicaDeLaMagia)
+		draco.asistirAMateria(logicaDeLaMagia)
+		hermione.asistirAMateria(logicaDeLaMagia)
+		draco.inscribirseAMateria(logicaDeLaMagia)
+		hermione.inscribirseAMateria(logicaDeLaMagia)
+		draco.asistirAMateria(logicaDeLaMagia)
+		hermione.asistirAMateria(logicaDeLaMagia)
+		logicaDeLaMagia.dictarMateria()
+		logicaDeLaMagia.realizarPractica()
+		assert.equals(50, goblin.salud())
+	}
+	
+	test "Se realiza una prectica de organizacionDeLaMagia1 con fernando, harry, hermione y draco y la vida del orco permanece en 5"{
+		draco.inscribirseAMateria(organizacionDeLaMagia1)
+		hermione.inscribirseAMateria(organizacionDeLaMagia1)
+		draco.asistirAMateria(organizacionDeLaMagia1)
+		hermione.asistirAMateria(organizacionDeLaMagia1)
+		draco.inscribirseAMateria(organizacionDeLaMagia1)
+		hermione.inscribirseAMateria(organizacionDeLaMagia1)
+		draco.asistirAMateria(organizacionDeLaMagia1)
+		hermione.asistirAMateria(organizacionDeLaMagia1)
+		organizacionDeLaMagia1.dictarMateria()
+		organizacionDeLaMagia1.realizarPractica()
+		assert.equals(5, orco.salud())
+	}
+	
+	test "Harry intenta lanzar un inmobilus a orco y ocurre una exeption ya que no conose el hechiso"{
+		assert.throwsException(harry.lanzarHecisoA(orco, inmobilus))
+	}
+	
+	
+	
+	
+
+}
